@@ -1,5 +1,3 @@
-let a = 0
-let o = 0
 function decode(recchaine: string): string {
     let dec: number;
     let c: number;
@@ -27,7 +25,8 @@ function decode(recchaine: string): string {
 }
 
 radio.onReceivedString(function on_received_string(receivedString: string) {
-    
+    let a = 0
+    let o = 0
     basic.clearScreen()
     let newbinchaine = decode(receivedString)
     for (let i of _py.py_string_split(newbinchaine, ";")) {
@@ -43,6 +42,19 @@ radio.onReceivedString(function on_received_string(receivedString: string) {
     }
 })
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
-    let chaine = "10;31;31;14;4"
-    radio.sendString(chaine)
+    let p: number;
+    let chaine = "11111;11111;11111;11111;11111"
+    let decchaine = ""
+    for (let n of _py.py_string_split(chaine, ";")) {
+        p = 0
+        for (let m = 0; m < 5; m++) {
+            if (n[m] == "1") {
+                p = p + 2 ** (4 - m)
+            }
+            
+        }
+        decchaine = decchaine + ("" + p) + ";"
+    }
+    decchaine = decchaine.slice(0, -1)
+    radio.sendString(decchaine)
 })
