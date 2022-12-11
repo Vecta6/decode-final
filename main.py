@@ -15,6 +15,16 @@ def decode(recchaine):
     binchaine=binchaine[0:-1]
     return binchaine
 
+def encode(senchaine):
+    decchaine=""
+    for n in senchaine.split(";"):
+        p=0
+        for m in range(0, 5):
+            if n[m]=="1":
+                p=p+(2**(4-m))
+        decchaine=decchaine+str(p)+";"
+    decchaine=decchaine[0:-1]
+    return decchaine
 
 def on_received_string(receivedString):
     a=0
@@ -32,14 +42,6 @@ radio.on_received_string(on_received_string)
 
 
 def on_button_pressed_a():
-    chaine="11111;11111;11111;11111;11111"
-    decchaine=""
-    for n in chaine.split(";"):
-        p=0
-        for m in range(0, 5):
-            if n[m]=="1":
-                p=p+(2**(4-m))
-        decchaine=decchaine+str(p)+";"
-    decchaine=decchaine[0:-1]
-    radio.send_string(decchaine)
+    chaine=encode("01010;11111;11111;01110;00100")
+    radio.send_string(chaine)
 input.on_button_pressed(Button.A, on_button_pressed_a)

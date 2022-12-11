@@ -24,6 +24,23 @@ function decode(recchaine: string): string {
     return binchaine
 }
 
+function encode(senchaine: string): string {
+    let p: number;
+    let decchaine = ""
+    for (let n of _py.py_string_split(senchaine, ";")) {
+        p = 0
+        for (let m = 0; m < 5; m++) {
+            if (n[m] == "1") {
+                p = p + 2 ** (4 - m)
+            }
+            
+        }
+        decchaine = decchaine + ("" + p) + ";"
+    }
+    decchaine = decchaine.slice(0, -1)
+    return decchaine
+}
+
 radio.onReceivedString(function on_received_string(receivedString: string) {
     let a = 0
     let o = 0
@@ -42,19 +59,6 @@ radio.onReceivedString(function on_received_string(receivedString: string) {
     }
 })
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
-    let p: number;
-    let chaine = "11111;11111;11111;11111;11111"
-    let decchaine = ""
-    for (let n of _py.py_string_split(chaine, ";")) {
-        p = 0
-        for (let m = 0; m < 5; m++) {
-            if (n[m] == "1") {
-                p = p + 2 ** (4 - m)
-            }
-            
-        }
-        decchaine = decchaine + ("" + p) + ";"
-    }
-    decchaine = decchaine.slice(0, -1)
-    radio.sendString(decchaine)
+    let chaine = encode("01010;11111;11111;01110;00100")
+    radio.sendString(chaine)
 })
